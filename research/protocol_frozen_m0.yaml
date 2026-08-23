@@ -1,0 +1,94 @@
+# Authoritative M0 protocol artifact.
+# Do not change status to FROZEN until every required field has been audited.
+status: UNFROZEN
+
+dataset:
+  name: kuairand-pure
+  version: null
+  sha256: null
+  provenance: null
+
+logging_regimes:
+  standard_semantics: null
+  randomized_semantics: null
+
+splits:
+  train_window: null
+  validation_window: null
+  test_window: null
+  eligibility_rule: null
+
+training:
+  source_policy: standard_only
+  interaction_definition: null
+  positive_definition: null
+  non_positive_treatment: null
+  negative_sampling_policy: null
+  validation_objective: null
+  seed_set: [365, 366, 367]
+  cross_seed_aggregation: mean
+  seed_stability_rule: null
+
+models:
+  popularity:
+    config: configs/models/popularity.yaml
+    search_budget: null
+  bpr:
+    config: configs/models/bpr.yaml
+    search_budget: null
+  lightgcn:
+    config: configs/models/lightgcn.yaml
+    search_budget: null
+
+targets:
+  target_a:
+    name: is_click
+    definition_card: research/targets/is_click.md
+    frozen_definition: null
+  target_b:
+    name: long_view
+    definition_card: research/targets/long_view.md
+    frozen_definition: null
+
+evaluation:
+  ranking_unit: null
+  candidate_rule: null
+  duplicate_rule: null
+  min_candidate_set_size: null
+  less_than_k_rule: null
+  unseen_entity_rule: null
+  test_negative_sampling: null
+  primary_metric: null
+  primary_k: null
+  aggregation_unit: null
+  weighting_policy: null
+  zero_relevance_rule: null
+  tie_breaking_rule: null
+  ndcg_gain: null
+  ndcg_discount: null
+  relevance_scale: null
+
+selection:
+  practical_delta: null
+  delta_selection_procedure: null
+  confidence_level: null
+  bootstrap_replicates: null
+  ci_method: null
+  bootstrap_unit: user_cluster
+  repeated_observation_handling: null
+  multiplicity_policy: null
+  decisive_winner_rule: null
+
+matched_support:
+  restriction_rule: null
+  retention_reporting: true
+
+contrasts:
+  pairwise_margin: D_AB
+  logging_regime: G_AB
+  behavioral_target: T_AB
+  native_clustered_procedure: null
+  matched_paired_procedure: null
+
+invalidation:
+  rules_reference: research/project_plan.md

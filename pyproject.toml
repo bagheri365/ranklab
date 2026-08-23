@@ -1,0 +1,52 @@
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[project]
+name = "ranklab"
+version = "0.1.0"
+description = "Controlled study of offline recommender model-selection stability across logging regimes and behavioral targets."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "RankLab contributors" }]
+dependencies = [
+  "numpy>=1.26,<3",
+  "pandas>=2.2,<3",
+  "pydantic>=2.8,<3",
+  "PyYAML>=6.0,<7",
+  "scipy>=1.13,<2",
+  "typer>=0.12,<1",
+]
+
+[project.optional-dependencies]
+models = ["torch>=2.3,<3"]
+dev = [
+  "pytest>=8.2,<9",
+  "pytest-cov>=5,<7",
+  "ruff>=0.6,<1",
+  "mypy>=1.11,<2",
+]
+
+[project.scripts]
+ranklab = "ranklab.cli:app"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/ranklab"]
+
+[tool.pytest.ini_options]
+addopts = "-ra --strict-config --strict-markers"
+testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM", "RUF"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+packages = ["ranklab"]

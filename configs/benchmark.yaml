@@ -1,0 +1,20 @@
+dataset:
+  name: kuairand-pure
+  version: null
+  sha256: null
+
+logging_regimes:
+  standard:
+    verified_semantics: null
+  randomized:
+    verified_semantics: null
+
+temporal:
+  train_window: null
+  validation_window: null
+  test_window: null
+
+primary_k: null
+primary_metric: null
+
+status: UNFROZEN

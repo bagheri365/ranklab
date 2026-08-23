@@ -1,0 +1,12 @@
+# M0 will expand these into the full hand-calculated metric fixture suite once
+# exact NDCG semantics are frozen.
+fixtures:
+  - name: perfect_binary
+    relevance: [1, 1, 0]
+    k: 3
+  - name: reversed_binary
+    relevance: [0, 1, 1]
+    k: 3
+  - name: zero_relevance
+    relevance: [0, 0, 0]
+    k: 3

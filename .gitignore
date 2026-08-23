@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.venv/
+dist/
+build/
+*.egg-info/
+
+# Data: keep documentation, not datasets
+/data/raw/*
+/data/interim/*
+/data/processed/*
+!/data/README.md
+
+# Generated experiment payloads
+/runs/**
+!/runs/m0/
+!/runs/m1/
+/runs/m0/*
+/runs/m1/*
+
+# Local reports may be regenerated; curate tracked outputs intentionally
+/reports/figures/*
+/reports/tables/*
+/reports/results/*
+
+# OS / editors
+.DS_Store
+.idea/
+.vscode/

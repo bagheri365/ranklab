@@ -1,0 +1,12 @@
+model:
+  id: lightgcn
+  family: lightgcn
+  deterministic: false
+training:
+  interaction_definition: null
+  objective: null
+  seeds: [365, 366, 367]
+  hyperparameter_space: null
+  trial_budget: null
+  early_stopping: null
+status: UNFROZEN

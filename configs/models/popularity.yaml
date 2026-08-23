@@ -1,0 +1,8 @@
+model:
+  id: popularity
+  family: popularity_engagement
+  deterministic: true
+training:
+  interaction_definition: null
+  score_definition: null
+status: UNFROZEN

@@ -1,0 +1,14 @@
+# This configuration is intentionally incomplete until M0 is frozen.
+experiment:
+  id: ranklab-m1-primary
+protocol_sha256: null
+models:
+  - configs/models/popularity.yaml
+  - configs/models/bpr.yaml
+  - configs/models/lightgcn.yaml
+evaluation:
+  regimes: [standard, randomized]
+  targets: [target_a, target_b]
+  primary_k: null
+  primary_metric: null
+status: BLOCKED_UNTIL_M0_FREEZE

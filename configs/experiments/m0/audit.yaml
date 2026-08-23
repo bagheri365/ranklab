@@ -1,0 +1,12 @@
+experiment:
+  id: ranklab-m0-audit
+  benchmark: configs/benchmark.yaml
+checks:
+  - logging_regime_semantics
+  - target_semantics
+  - temporal_comparability
+  - user_item_support
+  - candidate_structure
+  - target_prevalence
+  - feature_availability
+status: UNFROZEN
