@@ -3,10 +3,15 @@ model:
   family: lightgcn
   deterministic: false
 training:
-  interaction_definition: null
-  objective: null
+  interaction_definition: unique_user_video_pairs_collapsed_by_any_click
+  graph_edges: positive_click_pairs_only
+  negative_rule: exposed_pair_with_no_click_in_training_slice
+  negative_sampling: same_user_uniform_with_replacement
+  negatives_per_positive: 1
+  resample_each_epoch: true
+  objective: bpr
   seeds: [365, 366, 367]
   hyperparameter_space: null
   trial_budget: null
   early_stopping: null
-status: UNFROZEN
+status: TRAINING_CONTRACT_FROZEN

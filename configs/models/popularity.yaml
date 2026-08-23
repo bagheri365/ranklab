@@ -1,8 +1,9 @@
 model:
   id: popularity
-  family: popularity_engagement
+  family: clicked_pair_popularity
   deterministic: true
 training:
-  interaction_definition: null
-  score_definition: null
-status: UNFROZEN
+  interaction_definition: unique_user_video_pairs_collapsed_by_any_click
+  score_definition: distinct_positive_users_per_video
+  training_window: 2022-04-09/2022-04-16
+status: TRAINING_CONTRACT_FROZEN

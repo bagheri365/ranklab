@@ -66,3 +66,58 @@ make audit-data
 ```
 
 This records SHA-256 hashes for the six expected CSVs and validates the minimum documented log headers. It is a provenance/schema check only; it does not freeze target, UI-scenario, candidate-set, or ranking-unit semantics.
+
+## M0.2 — regime and target audit
+
+After M0.1 provenance succeeds, run:
+
+```bash
+make audit-regimes
+```
+
+This produces `runs/m0/regime_audit.json` with descriptive statistics for the three interaction logs and user/item overlap between the two Apr 22–May 8 evaluation regimes. It does not freeze target semantics or M1 conclusions.
+
+### M0.3 — shared-support / scenario audit
+
+After M0.2, inspect increasingly comparable evaluation slices without freezing a matched-support rule:
+
+```bash
+make audit-support
+```
+
+This writes `runs/m0/support_audit.json`. The `tab=1` slice is descriptive only: the public KuaiRand documentation identifies `tab` as a scenario code but does not publicly map every numeric code to a semantic UI name.
+
+### M0.4 — target semantics / label-quality audit
+
+After the support/scenario audit, verify the proposed behavioral targets before freezing them:
+
+```bash
+make audit-targets
+```
+
+This writes `runs/m0/target_audit.json` with duration-stratified target prevalence, target co-occurrence, anomaly counts, and a direct check of the documented `long_view` rule. `is_click` remains UI-dependent in the official documentation, so RankLab does not reconstruct it from play time without an authoritative mapping from `tab` to UI type.
+
+### M0.5 — training interaction / temporal split audit
+
+Before training any primary model, audit candidate interaction definitions that are distinct from `is_click` and `long_view`, including a downstream-engagement composite (`is_profile_enter` or a positive social action), together with a leakage-safe validation split drawn only from the standard-history period:
+
+```bash
+make audit-training
+```
+
+This writes `runs/m0/training_audit.json`. The default three-day trailing validation slice is descriptive only; M0 must still freeze the final interaction definition, cutoff, negative policy, validation objective, and model losses before any primary training run.
+
+
+### M0.6 training-contract freeze candidate
+
+After the training-signal density audit, RankLab tests a click-based implicit-feedback contract before freezing it:
+
+```bash
+make audit-training-contract
+```
+
+The audit checks pair collapse, positive/negative coverage, 1:1 logged-negative feasibility, and validation ranking-unit support without inspecting the Apr 22–May 8 test labels.
+
+### M0 training contract status
+
+The training subsection is now frozen from M0.6b: standard-policy click pairs from Apr 9–16, Apr 17–21 validation, same-user logged negatives sampled uniformly with replacement, and a deterministic clicked-pair popularity baseline. The **overall M0 protocol remains UNFROZEN** until evaluation, support, and uncertainty decisions are complete.

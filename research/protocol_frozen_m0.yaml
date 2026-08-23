@@ -1,34 +1,44 @@
-# Authoritative M0 protocol artifact.
-# Do not change status to FROZEN until every required field has been audited.
 status: UNFROZEN
-
 dataset:
   name: kuairand-pure
   version: null
   sha256: null
   provenance: null
-
 logging_regimes:
   standard_semantics: null
   randomized_semantics: null
-
 splits:
-  train_window: null
-  validation_window: null
+  train_window: 2022-04-09/2022-04-16
+  validation_window: 2022-04-17/2022-04-21
   test_window: null
   eligibility_rule: null
-
 training:
   source_policy: standard_only
-  interaction_definition: null
-  positive_definition: null
-  non_positive_treatment: null
-  negative_sampling_policy: null
-  validation_objective: null
-  seed_set: [365, 366, 367]
+  interaction_definition: unique_user_video_pairs_collapsed_by_any_click
+  positive_definition: pair is positive if any standard-policy training exposure has
+    is_click=1
+  non_positive_treatment: pair is eligible negative only if exposed and never clicked
+    in training slice
+  negative_sampling_policy:
+    scope: same_user_logged_negative_pool
+    distribution: uniform
+    replacement: true
+    negatives_per_positive: 1
+    resample_each_epoch: true
+    eligibility: user has at least one positive pair and at least one eligible logged
+      negative
+  validation_objective: macro_ndcg_at_10_on_logged_validation_pairs_with_binary_any_click_relevance
+  seed_set:
+  - 365
+  - 366
+  - 367
   cross_seed_aggregation: mean
   seed_stability_rule: null
-
+  status: FROZEN
+  training_window: 2022-04-09/2022-04-16
+  validation_window: 2022-04-17/2022-04-21
+  checkpoint_rule: tune on validation only; freeze selected configuration per seed
+    before M1
 models:
   popularity:
     config: configs/models/popularity.yaml
@@ -39,7 +49,6 @@ models:
   lightgcn:
     config: configs/models/lightgcn.yaml
     search_budget: null
-
 targets:
   target_a:
     name: is_click
@@ -49,7 +58,6 @@ targets:
     name: long_view
     definition_card: research/targets/long_view.md
     frozen_definition: null
-
 evaluation:
   ranking_unit: null
   candidate_rule: null
@@ -67,7 +75,6 @@ evaluation:
   ndcg_gain: null
   ndcg_discount: null
   relevance_scale: null
-
 selection:
   practical_delta: null
   delta_selection_procedure: null
@@ -78,17 +85,14 @@ selection:
   repeated_observation_handling: null
   multiplicity_policy: null
   decisive_winner_rule: null
-
 matched_support:
   restriction_rule: null
   retention_reporting: true
-
 contrasts:
   pairwise_margin: D_AB
   logging_regime: G_AB
   behavioral_target: T_AB
   native_clustered_procedure: null
   matched_paired_procedure: null
-
 invalidation:
   rules_reference: research/project_plan.md

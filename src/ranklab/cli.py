@@ -12,6 +12,11 @@ from ranklab.data.provenance import (
     KUAIRAND_PURE_EXPECTED_FILES,
     inventory_as_dicts,
 )
+from ranklab.data.regime_audit import build_regime_audit
+from ranklab.data.support_audit import build_support_audit
+from ranklab.data.target_audit import build_target_audit
+from ranklab.data.training_audit import build_training_audit
+from ranklab.data.training_contract_audit import build_training_contract_audit
 from ranklab.data.validation import audit_log_header
 
 app = typer.Typer(no_args_is_help=True, help="RankLab experiment CLI")
@@ -65,6 +70,80 @@ def audit_data(
         output.write_text(rendered + "\n", encoding="utf-8")
     if failed:
         raise typer.Exit(code=1)
+
+
+@app.command("audit-regimes")
+def audit_regimes(
+    data_dir: Path = typer.Option(..., exists=True, file_okay=False, dir_okay=True),
+    output: Path | None = typer.Option(None, help="Optional JSON output path."),
+    chunksize: int = typer.Option(250_000, min=1, help="CSV rows per processing chunk."),
+) -> None:
+    """Describe logging regimes, primary target fields, and evaluation-log overlap."""
+    payload = build_regime_audit(data_dir, chunksize=chunksize)
+    rendered = json.dumps(payload, indent=2, sort_keys=True)
+    typer.echo(rendered)
+    if output is not None:
+        output.parent.mkdir(parents=True, exist_ok=True)
+        output.write_text(rendered + "\n", encoding="utf-8")
+
+
+@app.command("audit-support")
+def audit_support(
+    data_dir: Path = typer.Option(..., exists=True, file_okay=False, dir_okay=True),
+    output: Path | None = typer.Option(None, help="Optional JSON output path."),
+    chunksize: int = typer.Option(250_000, min=1, help="CSV rows per processing chunk."),
+) -> None:
+    """Describe common user/video/scenario support across evaluation regimes."""
+    payload = build_support_audit(data_dir, chunksize=chunksize)
+    rendered = json.dumps(payload, indent=2, sort_keys=True)
+    typer.echo(rendered)
+    if output is not None:
+        output.parent.mkdir(parents=True, exist_ok=True)
+        output.write_text(rendered + "\n", encoding="utf-8")
+
+
+@app.command("audit-targets")
+def audit_targets(
+    data_dir: Path = typer.Option(..., exists=True, file_okay=False, dir_okay=True),
+    output: Path | None = typer.Option(None, help="Optional JSON output path."),
+    chunksize: int = typer.Option(250_000, min=1, help="CSV rows per processing chunk."),
+) -> None:
+    """Audit target semantics, duration dependence, and label-rule consistency."""
+    payload = build_target_audit(data_dir, chunksize=chunksize)
+    rendered = json.dumps(payload, indent=2, sort_keys=True)
+    typer.echo(rendered)
+    if output is not None:
+        output.parent.mkdir(parents=True, exist_ok=True)
+        output.write_text(rendered + "\n", encoding="utf-8")
+
+
+@app.command("audit-training")
+def audit_training(
+    data_dir: Path = typer.Option(..., exists=True, file_okay=False, dir_okay=True),
+    output: Path | None = typer.Option(None, help="Optional JSON output path."),
+    validation_days: int = typer.Option(3, min=1, help="Trailing observed history days to audit as validation."),
+) -> None:
+    """Audit candidate training interactions and a leakage-safe temporal validation split."""
+    payload = build_training_audit(data_dir, validation_days=validation_days)
+    rendered = json.dumps(payload, indent=2, sort_keys=True)
+    typer.echo(rendered)
+    if output is not None:
+        output.parent.mkdir(parents=True, exist_ok=True)
+        output.write_text(rendered + "\n", encoding="utf-8")
+
+
+@app.command("audit-training-contract")
+def audit_training_contract(
+    data_dir: Path = typer.Option(..., exists=True, file_okay=False, dir_okay=True),
+    output: Path | None = typer.Option(None, help="Optional JSON output path."),
+) -> None:
+    """Audit the proposed click-based training/validation contract before freezing it."""
+    payload = build_training_contract_audit(data_dir)
+    rendered = json.dumps(payload, indent=2, sort_keys=True)
+    typer.echo(rendered)
+    if output is not None:
+        output.parent.mkdir(parents=True, exist_ok=True)
+        output.write_text(rendered + "\n", encoding="utf-8")
 
 
 @app.command("freeze-protocol")
