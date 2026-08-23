@@ -56,3 +56,13 @@ ranklab --help
 ```
 
 Dataset files are not committed. See `data/README.md`.
+
+## M0.1 — data provenance
+
+After downloading and extracting the official KuaiRand-Pure archive, run:
+
+```bash
+make audit-data
+```
+
+This records SHA-256 hashes for the six expected CSVs and validates the minimum documented log headers. It is a provenance/schema check only; it does not freeze target, UI-scenario, candidate-set, or ranking-unit semantics.

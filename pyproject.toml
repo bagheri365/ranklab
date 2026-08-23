@@ -8,7 +8,7 @@ version = "0.1.0"
 description = "Controlled study of offline recommender model-selection stability across logging regimes and behavioral targets."
 readme = "README.md"
 requires-python = ">=3.11"
-license = { text = "MIT" }
+license = { text = "Apache-2.0" }
 authors = [{ name = "RankLab contributors" }]
 dependencies = [
   "numpy>=1.26,<3",
