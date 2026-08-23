@@ -197,7 +197,12 @@ def macro_logged_ndcg_at_k(
             continue
 
         item_ids = [item_id for item_id, _ in candidates]
-        scores = model.score_items(user_id, item_ids)
+        item_indices = np.fromiter(
+            (item_map[item_id] for item_id in item_ids),
+            dtype=np.int64,
+            count=len(item_ids),
+        )
+        scores = model.item_factors[item_indices] @ model.user_factors[user_map[user_id]]
         ranked = sorted(
             zip(candidates, scores),
             key=lambda pair: (-float(pair[1]), repr(pair[0][0])),
