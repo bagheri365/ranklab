@@ -6,4 +6,7 @@ training:
   interaction_definition: unique_user_video_pairs_collapsed_by_any_click
   score_definition: distinct_positive_users_per_video
   training_window: 2022-04-09/2022-04-16
-status: TRAINING_CONTRACT_FROZEN
+ranking:
+  primary_order: score_descending
+  exact_score_tie_break: video_id_ascending
+status: TRAINING_AND_RANKING_CONTRACT_FROZEN
