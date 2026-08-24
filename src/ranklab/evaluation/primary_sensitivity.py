@@ -132,10 +132,7 @@ def run_one_sensitivity(
             frame = candidates[regime]
             grouped = list(frame.groupby("user_id", sort=True))
 
-            for scorer_spec in scorers:
-                model = scorer_spec["model"]
-                seed = scorer_spec["seed"]
-                scorer = scorer_spec["scorer"]
+            for model, seed, scorer in scorers:
 
                 for user_id, user_frame in grouped:
                     item_ids = user_frame["video_id"].to_numpy()

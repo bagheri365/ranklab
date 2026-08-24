@@ -34,7 +34,7 @@ def test_sensitivity_runner_writes_raw_artifact(tmp_path, monkeypatch):
         primary_sensitivity.primary,
         "load_frozen_scorers",
         lambda **kwargs: (
-            [{"model": "popularity", "seed": "deterministic", "scorer": DummyScorer()}],
+            [("popularity", "deterministic", DummyScorer())],
             {"bpr": {}, "lightgcn": {}},
         ),
     )
