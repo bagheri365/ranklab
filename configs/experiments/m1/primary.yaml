@@ -1,7 +1,8 @@
-# This configuration is intentionally incomplete until M0 is frozen.
+# M0 protocol is frozen. This config is protocol-ready but M1 has not yet run.
 experiment:
   id: ranklab-m1-primary
-protocol_sha256: null
+protocol_sha256: 9bd72ae2d3042dc9511734563b90b8668519b401b847ce218f706a465cc41a32
+protocol_file: research/protocol_frozen_m0.yaml
 models:
   - configs/models/popularity.yaml
   - configs/models/bpr.yaml
@@ -9,6 +10,9 @@ models:
 evaluation:
   regimes: [standard, randomized]
   targets: [target_a, target_b]
-  primary_k: null
-  primary_metric: null
-status: BLOCKED_UNTIL_M0_FREEZE
+  primary_support: shared_users_and_videos_then_training_indexed_entities
+  primary_k: 10
+  primary_metric: macro_ndcg
+  min_candidate_set_size: 2
+  zero_relevance_rule: exclude_from_target_macro_and_report_counts
+status: PROTOCOL_READY_NOT_RUN

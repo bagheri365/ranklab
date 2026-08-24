@@ -10,8 +10,23 @@ training:
   negatives_per_positive: 1
   resample_each_epoch: true
   objective: bpr
-  seeds: [365, 366, 367]
-  hyperparameter_space: null
-  trial_budget: null
-  early_stopping: null
-status: TRAINING_CONTRACT_FROZEN
+  seeds: [0, 1, 2, 3, 4]
+  selected_dimension: 32
+  selected_layers: 2
+  selected_learning_rate: 2.0
+  selected_regularization: 0.0001
+  fixed_primary_epochs: 28
+  hyperparameter_space:
+    dimensions: [16, 32, 64]
+    layers: [1, 2, 3]
+    learning_rates: [0.5, 1.0, 2.0]
+    regularization: 0.0001
+  trial_budget: 27
+  early_stopping: false
+selection:
+  tuning_seed: 0
+  optimization_scale_reference: research/audits/comparability/M0.9C_LIGHTGCN_OPTIMIZATION_SCALE_PROTOCOL.md
+  reference: research/audits/comparability/M0.9E_LIGHTGCN_SELECTION_DECISION.md
+  joint_rationale: research/audits/comparability/M0.10_BPR_LIGHTGCN_MODEL_SELECTION_RATIONALE.md
+  primary_checkpoint_freeze: research/audits/comparability/M0.13_PRIMARY_CHECKPOINT_FREEZE.md
+status: FULLY_FROZEN

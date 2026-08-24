@@ -1,17 +1,18 @@
-status: UNFROZEN
+status: FROZEN
 dataset:
   name: kuairand-pure
-  version: null
-  sha256: null
-  provenance: null
+  version: upstream_unversioned_archive
+  sha256: 292d78feaff8af210fe5225c2db669fc279de616debcc3c10898e5f3833e10b2
+  sha256_scope: canonical_filename_sorted_manifest_of_six_audited_csv_sha256_values
+  provenance: research/audits/logging_regimes/M0.1_DATA_PROVENANCE.md
 logging_regimes:
-  standard_semantics: null
-  randomized_semantics: null
+  standard_semantics: logged interactions from the standard recommender policy; is_rand=0
+  randomized_semantics: logged interactions produced by random intervention in standard recommendation feeds; is_rand=1
 splits:
   train_window: 2022-04-09/2022-04-16
   validation_window: 2022-04-17/2022-04-21
-  test_window: null
-  eligibility_rule: null
+  test_window: 2022-04-22/2022-05-08
+  eligibility_rule: apply_frozen_M0.15_shared_entity_support_then_M0.18_training_index_scoring_eligibility
 training:
   source_policy: standard_only
   interaction_definition: unique_user_video_pairs_collapsed_by_any_click
@@ -43,22 +44,25 @@ training:
 models:
   popularity:
     config: configs/models/popularity.yaml
-    search_budget: null
+    search_budget: not_applicable_deterministic_baseline
+    selection_reference: research/audits/comparability/M0.14_POPULARITY_AND_TIEBREAK_FREEZE.md
   bpr:
     config: configs/models/bpr.yaml
-    search_budget: null
+    search_budget: 27_config_grid_3_dimensions_x_3_learning_rates_x_3_regularizations
+    selection_reference: research/audits/comparability/M0.8D_BPR_SELECTION_DECISION.md
   lightgcn:
     config: configs/models/lightgcn.yaml
-    search_budget: null
+    search_budget: 27_config_grid_3_dimensions_x_3_layers_x_3_learning_rates_fixed_regularization
+    selection_reference: research/audits/comparability/M0.9E_LIGHTGCN_SELECTION_DECISION.md
 targets:
   target_a:
     name: is_click
     definition_card: research/targets/is_click.md
-    frozen_definition: null
+    frozen_definition: binary_raw_is_click_with_pair_relevance_any_positive_after_frozen_filters
   target_b:
     name: long_view
     definition_card: research/targets/long_view.md
-    frozen_definition: null
+    frozen_definition: binary_raw_long_view_with_pair_relevance_any_positive_after_frozen_filters
 evaluation:
   ranking_unit: user
   candidate_rule: unique_logged_user_video_pairs_after_frozen_support_and_scoring_eligibility
@@ -113,3 +117,4 @@ contrasts:
   status: FROZEN
 invalidation:
   rules_reference: research/project_plan.md
+  m1_gate: protocol_ready_not_run

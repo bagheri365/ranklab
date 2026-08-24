@@ -1,20 +1,22 @@
 dataset:
   name: kuairand-pure
-  version: null
-  sha256: null
+  version: upstream_unversioned_archive
+  sha256: 292d78feaff8af210fe5225c2db669fc279de616debcc3c10898e5f3833e10b2
+  sha256_scope: canonical_filename_sorted_manifest_of_six_audited_csv_sha256_values
+  provenance: research/audits/logging_regimes/M0.1_DATA_PROVENANCE.md
 
 logging_regimes:
   standard:
-    verified_semantics: null
+    verified_semantics: standard_recommender_policy_is_rand_0
   randomized:
-    verified_semantics: null
+    verified_semantics: random_intervention_in_standard_recommendation_feeds_is_rand_1
 
 temporal:
-  train_window: null
-  validation_window: null
-  test_window: null
+  train_window: 2022-04-09/2022-04-16
+  validation_window: 2022-04-17/2022-04-21
+  test_window: 2022-04-22/2022-05-08
 
-primary_k: null
-primary_metric: null
+primary_k: 10
+primary_metric: macro_ndcg
 
-status: UNFROZEN
+status: FROZEN
