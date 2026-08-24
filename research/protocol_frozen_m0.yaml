@@ -30,8 +30,8 @@ training:
   validation_objective: macro_ndcg_at_10_on_logged_validation_pairs_with_binary_any_click_relevance
   tuning_seed: 0
   seed_set: [0, 1, 2, 3, 4]
-  cross_seed_aggregation: null
-  seed_stability_rule: null
+  cross_seed_aggregation: arithmetic_mean_over_frozen_seeds
+  seed_stability_rule: report_seed_specific_scores_sd_range_and_all_seed_order_agreement
   status: FROZEN
   training_window: 2022-04-09/2022-04-16
   validation_window: 2022-04-17/2022-04-21
@@ -79,15 +79,17 @@ evaluation:
   relevance_scale: binary
   status: FROZEN
 selection:
-  practical_delta: null
-  delta_selection_procedure: null
-  confidence_level: null
-  bootstrap_replicates: null
-  ci_method: null
+  practical_delta: none
+  delta_selection_procedure: report_raw_effect_sizes_no_posthoc_practical_threshold
+  confidence_level: 0.95
+  bootstrap_replicates: 20000
+  bootstrap_seed: 365
+  ci_method: nonparametric_percentile
   bootstrap_unit: user_cluster
-  repeated_observation_handling: null
-  multiplicity_policy: null
-  decisive_winner_rule: null
+  repeated_observation_handling: paired_by_user_with_seed_mean_inside_user
+  multiplicity_policy: bonferroni_simultaneous_primary_12_pairwise_comparisons
+  decisive_winner_rule: top_point_estimate_and_both_simultaneous_pairwise_cis_strictly_above_zero
+  status: FROZEN
 matched_support:
   restriction_rule: shared_users_and_videos_across_standard_and_randomized_eval
   pair_intersection_required: false
@@ -100,10 +102,14 @@ matched_support:
   retention_reporting: true
   status: FROZEN
 contrasts:
-  pairwise_margin: D_AB
-  logging_regime: G_AB
-  behavioral_target: T_AB
-  native_clustered_procedure: null
-  matched_paired_procedure: null
+  pairwise_margin: D_AB_equals_S_A_minus_S_B
+  logging_regime: G_AB_equals_D_AB_randomized_minus_D_AB_standard
+  behavioral_target: T_AB_equals_D_AB_long_view_minus_D_AB_is_click
+  native_clustered_procedure: bootstrap_union_of_user_ids_preserving_available_cell_observations
+  matched_paired_procedure: restrict_to_users_eligible_in_both_cells_then_paired_user_bootstrap
+  contrast_confidence_level: 0.95
+  contrast_ci_method: nonparametric_percentile
+  contrast_significance_labels: none_effect_size_estimation_only
+  status: FROZEN
 invalidation:
   rules_reference: research/project_plan.md
