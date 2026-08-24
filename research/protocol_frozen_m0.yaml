@@ -65,7 +65,8 @@ evaluation:
   duplicate_rule: null
   min_candidate_set_size: null
   less_than_k_rule: null
-  unseen_entity_rule: null
+  unseen_entity_rule: require_user_and_item_in_frozen_pairwise_training_index_for_all_models
+  unseen_entity_status: FROZEN
   test_negative_sampling: null
   primary_metric: null
   primary_k: null
