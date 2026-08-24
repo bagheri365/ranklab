@@ -60,23 +60,24 @@ targets:
     definition_card: research/targets/long_view.md
     frozen_definition: null
 evaluation:
-  ranking_unit: null
-  candidate_rule: null
-  duplicate_rule: null
-  min_candidate_set_size: null
-  less_than_k_rule: null
+  ranking_unit: user
+  candidate_rule: unique_logged_user_video_pairs_after_frozen_support_and_scoring_eligibility
+  duplicate_rule: collapse_pair_target_relevance_any_positive
+  min_candidate_set_size: 2
+  less_than_k_rule: use_all_available_candidates_without_padding_or_sampling
   unseen_entity_rule: require_user_and_item_in_frozen_pairwise_training_index_for_all_models
   unseen_entity_status: FROZEN
-  test_negative_sampling: null
-  primary_metric: null
-  primary_k: null
-  aggregation_unit: null
-  weighting_policy: null
-  zero_relevance_rule: null
-  tie_breaking_rule: null
-  ndcg_gain: null
-  ndcg_discount: null
-  relevance_scale: null
+  test_negative_sampling: none
+  primary_metric: macro_ndcg
+  primary_k: 10
+  aggregation_unit: user
+  weighting_policy: equal_user_weight
+  zero_relevance_rule: exclude_from_target_macro_and_report_counts
+  tie_breaking_rule: score_descending_then_video_id_ascending
+  ndcg_gain: identity_binary
+  ndcg_discount: one_over_log2_rank_plus_1
+  relevance_scale: binary
+  status: FROZEN
 selection:
   practical_delta: null
   delta_selection_procedure: null
