@@ -28,17 +28,18 @@ training:
     eligibility: user has at least one positive pair and at least one eligible logged
       negative
   validation_objective: macro_ndcg_at_10_on_logged_validation_pairs_with_binary_any_click_relevance
-  seed_set:
-  - 365
-  - 366
-  - 367
-  cross_seed_aggregation: mean
+  tuning_seed: 0
+  seed_set: [0, 1, 2, 3, 4]
+  cross_seed_aggregation: null
   seed_stability_rule: null
   status: FROZEN
   training_window: 2022-04-09/2022-04-16
   validation_window: 2022-04-17/2022-04-21
-  checkpoint_rule: tune on validation only; freeze selected configuration per seed
-    before M1
+  checkpoint_rule:
+    hyperparameters: selected once on tuning seed 0
+    bpr_fixed_primary_epochs: 1
+    lightgcn_fixed_primary_epochs: 28
+    per_seed_validation_reselection: false
 models:
   popularity:
     config: configs/models/popularity.yaml
