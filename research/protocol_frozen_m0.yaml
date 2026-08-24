@@ -86,8 +86,16 @@ selection:
   multiplicity_policy: null
   decisive_winner_rule: null
 matched_support:
-  restriction_rule: null
+  restriction_rule: shared_users_and_videos_across_standard_and_randomized_eval
+  pair_intersection_required: false
+  primary_tab_restriction: none
+  sensitivities:
+    - shared_users_videos_and_tabs
+    - shared_users_videos_tab_1
+  shared_tabs: [1, 2, 11, 14]
+  tab_1_semantics: descriptive_numeric_scenario_only
   retention_reporting: true
+  status: FROZEN
 contrasts:
   pairwise_margin: D_AB
   logging_regime: G_AB
