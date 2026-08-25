@@ -12,52 +12,55 @@ import re
 from typing import Iterable
 
 
-STATUS_BLOCK = """## Status
-
-M0 and M1 are complete and frozen. M2 is the publication/reporting layer.
+STATUS_BLOCK = """## Result at a glance
 
 > **Winner identity is stable, but comparative margins are not.**
 
-The frozen primary analysis finds Popularity as the decisive winner in all four
-logging-regime × behavioral-target cells. BPR and LightGCN are not decisively
-separated in any primary cell. Popularity's measured advantage is substantially
-larger under randomized exposure than under standard logging, and the target
-definition also changes the measured margin.
-
-These are offline evaluation contrasts under different logged exposure
-processes. They are **not causal treatment-effect estimates**.
+RankLab asks whether the **same trained recommenders** lead to the same offline
+model-selection decision under standard-policy versus randomized exposure.
 
 ### Primary macro NDCG@10
 
 | Logging regime | Target | Popularity | BPR | LightGCN |
 | --- | --- | ---: | ---: | ---: |
-| standard | `is_click` | **0.716524** | 0.676985 | 0.676862 |
-| standard | `long_view` | **0.648404** | 0.601746 | 0.601590 |
-| randomized | `is_click` | **0.432459** | 0.343522 | 0.343527 |
-| randomized | `long_view` | **0.370164** | 0.265048 | 0.265314 |
+| standard | `is_click` | **0.717** | 0.677 | 0.677 |
+| standard | `long_view` | **0.648** | 0.602 | 0.602 |
+| randomized | `is_click` | **0.432** | 0.344 | 0.344 |
+| randomized | `long_view` | **0.370** | 0.265 | 0.265 |
 
-Support robustness preserves the same qualitative pattern under both the
-pre-specified shared-tabs sensitivity and the descriptive `tab=1` sensitivity.
-`tab=1` is not assigned a semantic UI meaning because the public KuaiRand
-documentation does not map every numeric tab ID to a semantic label.
+### Three takeaways
 
-See:
+- **Popularity is the decisive winner in all four primary cells.**
+- **BPR and LightGCN are not decisively separated** in any primary cell.
+- **The winner stays the same, but its measured advantage is much larger under
+  randomized exposure.** Target definition also changes the measured margin.
 
-- `research/reporting/M2.1_REPORTING_CONTRACT.md`
-- `research/reporting/M2.2_PUBLICATION_TABLES_FIGURES.md`
-- `research/reporting/REPRODUCIBILITY.md`
+These are **offline evaluation contrasts, not causal effects**.
+
+### Go deeper
+
+- **Reproduce the study:** `research/reporting/REPRODUCIBILITY.md`
+- **Read Results + Discussion:** `research/reporting/M2.4_RESULTS_DISCUSSION.md`
+- **Inspect the reporting contract:** `research/reporting/M2.1_REPORTING_CONTRACT.md`
+- **Release:** `v1.0.0`
+
+M0 and M1 are complete and frozen; M2 is the frozen publication/reporting
+layer. The pre-specified shared-tabs sensitivity preserves the qualitative
+primary result. The `tab=1` sensitivity also preserves the pattern but remains
+descriptive only because the public KuaiRand documentation does not map every
+numeric tab ID to a semantic UI label.
 
 """
 
 
 def rewrite_readme(text: str) -> str:
     pattern = re.compile(
-        r"(?ms)^## Status\s*$.*?(?=^## Primary study\s*$)"
+        r"(?ms)^## (?:Status|Result at a glance)\s*$.*?(?=^## Primary study\s*$)"
     )
     matches = list(pattern.finditer(text))
     if len(matches) != 1:
         raise RuntimeError(
-            f"expected exactly one README Status→Primary study block, found {len(matches)}"
+            f"expected exactly one README status/results→Primary study block, found {len(matches)}"
         )
 
     updated = pattern.sub(STATUS_BLOCK, text, count=1)
@@ -87,7 +90,7 @@ def update_path(path: str | Path) -> None:
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Update README to frozen M2 status.")
+    parser = argparse.ArgumentParser(description="Update README to the fast-reader frozen results summary.")
     parser.add_argument("--readme", default="README.md")
     return parser
 

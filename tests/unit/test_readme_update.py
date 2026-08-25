@@ -18,6 +18,26 @@ body
     assert "Winner identity is stable, but comparative margins are not." in out
     assert "old status with arbitrary text" not in out
     assert "## Primary study" in out
+    assert "## Result at a glance" in out
+    assert "### Three takeaways" in out
+    assert "research/reporting/M2.4_RESULTS_DISCUSSION.md" in out
+    assert "v1.0.0" in out
+
+
+def test_rewrite_readme_is_idempotent_for_fast_reader_status():
+    source = """# RankLab
+
+## Status
+
+old
+
+## Primary study
+
+body
+"""
+    once = rewrite_readme(source)
+    twice = rewrite_readme(once)
+    assert once == twice
 
 
 def test_rewrite_readme_rejects_missing_anchor():
