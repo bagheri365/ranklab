@@ -8,9 +8,38 @@ Primary question:
 
 ## Status
 
-**M0 — Benchmark Integrity: scaffolded, not frozen.**
+M0 and M1 are complete and frozen. M2 is the publication/reporting layer.
 
-The repository intentionally does **not** contain primary M1 results yet. Dataset semantics, target definitions, the logged ranking unit, exact NDCG semantics, training supervision, matched-support rules, and statistical procedures must be audited and frozen in M0 before comparative M1 evaluation.
+> **Winner identity is stable, but comparative margins are not.**
+
+The frozen primary analysis finds Popularity as the decisive winner in all four
+logging-regime × behavioral-target cells. BPR and LightGCN are not decisively
+separated in any primary cell. Popularity's measured advantage is substantially
+larger under randomized exposure than under standard logging, and the target
+definition also changes the measured margin.
+
+These are offline evaluation contrasts under different logged exposure
+processes. They are **not causal treatment-effect estimates**.
+
+### Primary macro NDCG@10
+
+| Logging regime | Target | Popularity | BPR | LightGCN |
+| --- | --- | ---: | ---: | ---: |
+| standard | `is_click` | **0.716524** | 0.676985 | 0.676862 |
+| standard | `long_view` | **0.648404** | 0.601746 | 0.601590 |
+| randomized | `is_click` | **0.432459** | 0.343522 | 0.343527 |
+| randomized | `long_view` | **0.370164** | 0.265048 | 0.265314 |
+
+Support robustness preserves the same qualitative pattern under both the
+pre-specified shared-tabs sensitivity and the descriptive `tab=1` sensitivity.
+`tab=1` is not assigned a semantic UI meaning because the public KuaiRand
+documentation does not map every numeric tab ID to a semantic label.
+
+See:
+
+- `research/reporting/M2.1_REPORTING_CONTRACT.md`
+- `research/reporting/M2.2_PUBLICATION_TABLES_FIGURES.md`
+- `research/reporting/REPRODUCIBILITY.md`
 
 ## Primary study
 
@@ -43,7 +72,7 @@ The same fitted checkpoints per frozen training seed will be reused across every
 
 M0 must verify KuaiRand-Pure logging semantics, target validity, temporal comparability, training supervision, candidate-set semantics, exact metric behavior, matched support, uncertainty procedures, and protocol integrity.
 
-The primary protocol is not considered frozen until `research/protocol_frozen_m0.yaml` is complete and its SHA-256 is computed externally. Every valid M1 manifest must reference that hash.
+The final M0 protocol is frozen. Historical milestone notes below are retained as an audit trail; current status is summarized above and in `research/reporting/REPRODUCIBILITY.md`.
 
 ## Quick start
 
